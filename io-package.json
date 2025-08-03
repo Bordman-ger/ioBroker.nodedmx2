@@ -83,7 +83,7 @@
 		]
 	},
 	"native": {
-		"device": "/dev/ttyACM0true",
+		"device": "/dev/ttyACM0",
 		"driver": "dmx4all",
 		"channels_used": "21"
 	},
