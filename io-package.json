@@ -1,0 +1,91 @@
+{
+	"common": {
+		"name": "nodedmx2",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"titleLang": {
+			"en": "Nodedmx2",
+			"de": "NodedMx2",
+			"ru": "NodedMX2",
+			"pt": "Nodedmx2",
+			"nl": "NodedMx2",
+			"fr": "Nodmx2",
+			"it": "Nodedmx2",
+			"es": "NodoMX2",
+			"pl": "Nodedmx2",
+			"uk": "Nodedmx2",
+			"zh-cn": "nodedmx2"
+		},
+		"desc": {
+			"en": "Nodedmx",
+			"de": "Nodedmx",
+			"ru": "NodedMX",
+			"pt": "Nodedmx",
+			"nl": "Knipoog",
+			"fr": "Nodmx",
+			"it": "Nodedmx",
+			"es": "Nodomx",
+			"pl": "Nodedmx",
+			"uk": "Вузол",
+			"zh-cn": "nodedmx"
+		},
+		"authors": [
+			"Boardman-ger <boardman-ger@selzer-schoeneck.de>"
+		],
+		"keywords": [
+			"ioBroker",
+			"template",
+			"Smart Home",
+			"home automation"
+		],
+		"licenseInformation": {
+			"type": "free",
+			"license": "MIT"
+		},
+		"platform": "Javascript/Node.js",
+		"icon": "nodedmx2.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/Boardman-ger/ioBroker.nodedmx2/main/admin/nodedmx2.png",
+		"readme": "https://github.com/Boardman-ger/ioBroker.nodedmx2/blob/main/README.md",
+		"loglevel": "info",
+		"tier": 3,
+		"mode": "daemon",
+		"type": "lighting",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=6.0.11"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": "7.0.23"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}
