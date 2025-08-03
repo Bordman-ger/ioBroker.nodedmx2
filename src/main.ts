@@ -7,10 +7,25 @@
 import * as utils from "@iobroker/adapter-core";
 const DMX = require('dmx')
 //import DMX from 'dmx';
-
+import type {CurrentStateValue, StateChangeListener,  StateEventRegistration} from "./lib/dmx.d.ts";
 
 // Load your modules here, e.g.:
 // import * as fs from "fs";
+
+// Augment the adapter.config object with the actual types
+declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
+	namespace ioBroker {
+		interface AdapterConfig {
+			// Define the shape of your options here (recommended)
+			device: string;
+			driver: string;
+			channels_used : number;
+
+		}
+	}
+
+}
 
 class Nodedmx2 extends utils.Adapter {
 	private mydmx?: any;
@@ -26,8 +41,9 @@ class Nodedmx2 extends utils.Adapter {
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
+			// dirname: __dirname.indexOf('node_modules') !== -1 ? undefined : __dirname + '/../',
 			...options,
-			name: "nodedmx2",
+			name: "nodedmx",
 		});
 		this.on("ready", this.onReady.bind(this));
 		this.on("stateChange", this.onStateChange.bind(this));
@@ -36,62 +52,101 @@ class Nodedmx2 extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 	}
 
+
+
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	private async onReady(): Promise<void> {
+		// Reset the connection indicator during startup
+		this.setState("info.connection", false, true);
+
+		this.log.info(`Adapter state Ready`);
 		// Initialize your adapter here
+
+		this.mydmx = new DMX();
+
+		// var universe = dmx.addUniverse('demo', 'enttec-open-usb-dmx', '/dev/cu.usbserial-6AVNHXS8')
+		// const universe = dmx.addUniverse('demo', 'socketio', null, {port: 17809, debug: true});
+		// const universe = dmx.addUniverse('myusb', 'dmx4all', '/dev/usb1', 'null');
+		// const universe = dmx.addUniverse("myusb", "dmx4all", "/dev/ttyACM0", "null");
+
+		// const universe = this.mydmx.addUniverse("myusb", "dmx4all", "/dev/ttyACM0", "null");
+		// const universe = this.mydmx.addUniverse("myusb", this.config.driver, this.config.device, "null");
+		this.mydmx.universe = this.mydmx.addUniverse("myusb", this.config.driver, this.config.device, "null");
+		this.log.info(`Universe erzeugt`);
+		this.mydmx.universe.updateAll(0);
+		/** only for testing of channel assignments
+		// Keller 2-5
+		this.mydmx.universe.update({2: 90, 3: 15, 4: 255, 5 : 25});
+		// OG 6-9
+		this.mydmx.universe.update({6: 90, 7: 15, 8: 255, 9 : 25});
+		// Küche 10-13
+		this.mydmx.universe.update({10: 90, 11: 15, 12: 255, 13 : 25});
+		// Party 16-18, Terasse 19-21
+		this.log.info("on");
+		*/
+
+
 
 		// The adapters config (in the instance object everything under the attribute "native") is accessible via
 		// this.config:
-		this.log.info("config option1: " + this.config.option1);
-		this.log.info("config option2: " + this.config.option2);
+		//LIMIT the number of DMX channels max. 224 usable with ioBroker
+		if (this.config.channels_used >224) {this.config.channels_used = 224}
+		if (this.config.channels_used <0) {this.config.channels_used = 1}
 
-		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
-		await this.setObjectNotExistsAsync("testVariable", {
-			type: "state",
-			common: {
-				name: "testVariable",
-				type: "boolean",
-				role: "indicator",
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
+		this.log.debug("config option1: " + this.config.device);
+		this.log.debug("config option3: " + this.config.driver);
+		this.log.debug("config option4: " + this.config.channels_used);
 
+	    // we are ready, let's set the connection indicator
+		this.setState("info.connection", true, true);
+		//offen Check driver/Device
+
+		//Initialize ioBrokers state objects if they dont exist
+		//DMX CHANNELS contain and send DMX value 0-255 to a DMX channel
+		// for (i=1;i<=DMX_CHANNELS_USED;i++){
+		for (let i = 0; i <= this.config.channels_used ; i++) {
+		// for (i:Number =1;i<=21;i++){
+			this.setObjectNotExists (this.GetDMX (i),{
+				type:"state",
+				common:{name:"DMX channel "+i ,type:"number",role:"value",read:true,write:true},
+				native:{}
+			});
+		}
+
+
+		// await this.setObjectNotExistsAsync("testVariable", {
+		// 	type: "state",
+		// 	common: {
+		// 		name: "testVariable",
+		// 		type: "boolean",
+		// 		role: "indicator",
+		// 		read: true,
+		// 		write: true,
+		// 	},
+		// 	native: {},
+		// });
 		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-		this.subscribeStates("testVariable");
+		// this.subscribeStates("testVariable");
 		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
 		// this.subscribeStates("lights.*");
 		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-		// this.subscribeStates("*");
-
-		/*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
+		this.subscribeStates("*");
 		// the variable testVariable is set to true as command (ack=false)
-		await this.setState("testVariable", true);
-
+		// await this.setStateAsync("testVariable", true);
 		// same thing, but the value is flagged "ack"
 		// ack should be always set to true if the value is received from or acknowledged from the target system
-		await this.setState("testVariable", { val: true, ack: true });
-
+		// await this.setStateAsync("testVariable", { val: true, ack: true });
 		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		await this.setState("testVariable", { val: true, ack: true, expire: 30 });
-
-		// examples for the checkPassword/checkGroup functions
-		let result = await this.checkPasswordAsync("admin", "iobroker");
-		this.log.info("check user admin pw iobroker: " + result);
-
-	//	result_b = await this.checkGroupAsync("admin", "admin");
-	//	this.log.info("check group user admin group admin: " + result_b);
+		// await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
+		// // examples for the checkPassword/checkGroup functions
+		// let result = await this.checkPasswordAsync("admin", "iobroker");
+		// this.log.info("check user admin pw iobroker: " + result);
+		// result = await this.checkGroupAsync("admin", "admin");
+		// this.log.info("check group user admin group admin: " + result);
 	}
+
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -103,6 +158,8 @@ class Nodedmx2 extends utils.Adapter {
 			// clearTimeout(timeout2);
 			// ...
 			// clearInterval(interval1);
+			this.mydmx?.universe?.close();
+			this.mydmx?.close();
 
 			callback();
 		} catch (e) {
@@ -110,52 +167,41 @@ class Nodedmx2 extends utils.Adapter {
 		}
 	}
 
-	// If you need to react to object changes, uncomment the following block and the corresponding line in the constructor.
-	// You also need to subscribe to the objects with `this.subscribeObjects`, similar to `this.subscribeStates`.
-	// /**
-	//  * Is called if a subscribed object changes
-	//  */
-	// private onObjectChange(id: string, obj: ioBroker.Object | null | undefined): void {
-	// 	if (obj) {
-	// 		// The object was changed
-	// 		this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-	// 	} else {
-	// 		// The object was deleted
-	// 		this.log.info(`object ${id} deleted`);
-	// 	}
-	// }
-
 	/**
 	 * Is called if a subscribed state changes
 	 */
 	private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
 		if (state) {
-			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+			// var adaptername = this.name;
+			//this.log.info(this.name);
+			// The state was changed: state nodedmx.0.DMX010 changed: 100 (ack = false)
+			this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+			//const portstring:string = id.substring(this.name.length+3);
+			const portstring:string = id.substring(this.name.length);
+			const portnumber:number = parseInt(portstring.substring(3));
+
+			this.log.debug(`number ${portnumber}`);
+			this.log.debug(`value ${state.val}`);
+
+			// this.mydmx.universe.update({11: state.val });
+			this.mydmx.universe.update({[portnumber]: state.val });
+
+			//this.log.info("updated");
 		} else {
 			// The state was deleted
-			this.log.info(`state ${id} deleted`);
+			this.log.debug(`state ${id} deleted`);
 		}
 	}
 
-	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
-	// /**
-	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-	//  * Using this method requires "common.messagebox" property to be set to true in io-package.json
-	//  */
-	// private onMessage(obj: ioBroker.Message): void {
-	// 	if (typeof obj === "object" && obj.message) {
-	// 		if (obj.command === "send") {
-	// 			// e.g. send email or pushover or whatever
-	// 			this.log.info("send command");
-
-	// 			// Send response in callback if required
-	// 			if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
-	// 		}
-	// 	}
-	// }
+	private GetDMX (number:number):string {
+		if (number <10) {return "00"+number;}
+		if (number <100) {return "0"+number;}
+		return ""+number;
+	}
 
 }
+
+
 
 if (require.main !== module) {
 	// Export the constructor in compact mode
