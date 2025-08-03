@@ -10,13 +10,13 @@
   "license": "MIT",
   "keywords": [
     "ioBroker",
-    "template",
+    "DMX",
     "Smart Home",
     "home automation"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Bordma n-ger/ioBroker.nodedmx2.git"
+    "url": "https://github.com/Bordman-ger/ioBroker.nodedmx2.git"
   },
   "engines": {
     "node": ">= 20"

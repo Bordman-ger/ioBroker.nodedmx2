@@ -3,7 +3,7 @@
 		"name": "nodedmx2",
 		"version": "0.0.2",
 		"news": {
-			"0.0.1": {
+			"0.0.2": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
 				"ru": "Начальная версия",
@@ -19,13 +19,13 @@
 		},
 		"titleLang": {
 			"en": "Nodedmx2",
-			"de": "NodedMx2",
-			"ru": "NodedMX2",
+			"de": "NodeDmx2",
+			"ru": "NodedmX2",
 			"pt": "Nodedmx2",
-			"nl": "NodedMx2",
-			"fr": "Nodmx2",
+			"nl": "Nodedmx2",
+			"fr": "Nodedmx2",
 			"it": "Nodedmx2",
-			"es": "NodoMX2",
+			"es": "Nodedmx2",
 			"pl": "Nodedmx2",
 			"uk": "Nodedmx2",
 			"zh-cn": "nodedmx2"
