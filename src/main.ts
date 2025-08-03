@@ -44,7 +44,7 @@ class Nodedmx2 extends utils.Adapter {
 		super({
 			// dirname: __dirname.indexOf('node_modules') !== -1 ? undefined : __dirname + '/../',
 			...options,
-			name: "nodedmx",
+			name: "nodedmx2",
 		});
 		this.on("ready", this.onReady.bind(this));
 		this.on("stateChange", this.onStateChange.bind(this));
