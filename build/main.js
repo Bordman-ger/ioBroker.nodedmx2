@@ -22,7 +22,6 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var utils = __toESM(require("@iobroker/adapter-core"));
-const DMX = require("dmx");
 class Nodedmx2 extends utils.Adapter {
   mydmx;
   existingObjects = {};
