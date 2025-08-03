@@ -12,7 +12,7 @@
 
 ## nodedmx2 adapter for ioBroker
 
-nodedmx adapter is used to have access to node-dmx/dmx modules for accessing various DMX devices as explained here: 
+nodedmx2 adapter is used to have access to node-dmx/dmx modules for accessing various DMX devices as explained here: 
 
 https://github.com/node-dmx/dmx
 
