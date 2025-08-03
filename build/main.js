@@ -22,6 +22,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var utils = __toESM(require("@iobroker/adapter-core"));
+const DMX = require("dmx");
 class Nodedmx2 extends utils.Adapter {
   constructor(options = {}) {
     super({
@@ -50,9 +51,9 @@ class Nodedmx2 extends utils.Adapter {
       native: {}
     });
     this.subscribeStates("testVariable");
-    await this.setStateAsync("testVariable", true);
-    await this.setStateAsync("testVariable", { val: true, ack: true });
-    await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
+    await this.setState("testVariable", true);
+    await this.setState("testVariable", { val: true, ack: true });
+    await this.setState("testVariable", { val: true, ack: true, expire: 30 });
     let result = await this.checkPasswordAsync("admin", "iobroker");
     this.log.info("check user admin pw iobroker: " + result);
   }

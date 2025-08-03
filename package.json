@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "description": "Nodedmx",
   "author": {
-    "name": "Boardman-ger",
-    "email": "boardman-ger@selzer-schoeneck.de"
+    "name": "Bordman-ger",
+    "email": "bordman-ger@selzer-schoeneck.de"
   },
-  "homepage": "https://github.com/Boardman-ger/ioBroker.nodedmx2",
+  "homepage": "https://github.com/Bordman-ger/ioBroker.nodedmx2",
   "license": "MIT",
   "keywords": [
     "ioBroker",
@@ -16,13 +16,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Boardman-ger/ioBroker.nodedmx2.git"
+    "url": "https://github.com/Bordman-ger/ioBroker.nodedmx2.git"
   },
   "engines": {
     "node": ">= 20"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.3.1"
+    "@iobroker/adapter-core": "^3.3.1",
+    "dmx": "^0.2.4"
+
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.8.0",
@@ -79,7 +81,7 @@
     "release": "release-script"
   },
   "bugs": {
-    "url": "https://github.com/Boardman-ger/ioBroker.nodedmx2/issues"
+    "url": "https://github.com/Bordman-ger/ioBroker.nodedmx2/issues"
   },
   "readmeFilename": "README.md"
 }

@@ -5,11 +5,24 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
+const DMX = require('dmx')
+//import DMX from 'dmx';
+
 
 // Load your modules here, e.g.:
 // import * as fs from "fs";
 
 class Nodedmx2 extends utils.Adapter {
+	private mydmx?: any;
+	private existingObjects: Record<string, ioBroker.Object> = {};
+	private currentStateValues: Record<string, CurrentStateValue> = {};
+	// private operatingModes: OperatingModes = {};
+	private stateChangeListeners: Record<string, StateChangeListener> = {};
+	private stateEventHandlers: Record<string, StateEventRegistration[]> = {};
+
+	private cacheEvents = false;
+	private eventsCache: Record<string, any> = {};
+
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
@@ -63,14 +76,14 @@ class Nodedmx2 extends utils.Adapter {
 			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
 		*/
 		// the variable testVariable is set to true as command (ack=false)
-		await this.setStateAsync("testVariable", true);
+		await this.setState("testVariable", true);
 
 		// same thing, but the value is flagged "ack"
 		// ack should be always set to true if the value is received from or acknowledged from the target system
-		await this.setStateAsync("testVariable", { val: true, ack: true });
+		await this.setState("testVariable", { val: true, ack: true });
 
 		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
+		await this.setState("testVariable", { val: true, ack: true, expire: 30 });
 
 		// examples for the checkPassword/checkGroup functions
 		let result = await this.checkPasswordAsync("admin", "iobroker");
