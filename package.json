@@ -1,7 +1,7 @@
 {
   "name": "iobroker.nodedmx2",
-  "version": "0.0.1",
-  "description": "Nodedmx",
+  "version": "0.0.2",
+  "description": "Nodedmx2 adapter for ioBroker",
   "author": {
     "name": "Bordman-ger",
     "email": "bordman-ger@selzer-schoeneck.de"
