@@ -12,7 +12,30 @@
 
 ## nodedmx2 adapter for ioBroker
 
-Nodedmx
+nodedmx adapter is used to have access to node-dmx/dmx modules for accessing various DMX devices as explained here: 
+
+https://github.com/node-dmx/dmx
+
+Actually this devices are supported:
+
+    null: a development driver that prints the universe to stdout
+    socketio: a driver which sends out the universe via socket.IO as an array (see demo_socket_client.js as a client example)
+    artnet: driver for EnttecODE
+    bbdmx: driver for BeagleBone-DMX
+    dmx4all: driver for DMX4ALL devices like the "NanoDMX USB Interface"
+    enttec-usb-dmx-pro: a driver for devices using a Enttec USB DMX Pro chip like the "DMXKing ultraDMX Micro".
+    enttec-open-usb-dmx: driver for "Enttec Open DMX USB". This device is NOT recommended, there are known hardware limitations and this driver is not very stable. (If possible better obtain a device with the "pro" chip)
+    dmxking-utra-dmx-pro: driver for the DMXKing Ultra DMX pro interface. This driver support multiple universe specify the options with Port = A or B
+
+I have only tested the dmx4all device together with a nanoDMX Controler.
+
+Parameters: 
+Device = hardware device e.g.    /dev/ttyACM0     for nanoDMX
+Driver = driver name as mentioned above,    dmx4all    in my case
+Last DMX channel used = range of channels to be created as objects under IO Broker
+F.e. 20 will create the objects nodedmx.0.DMX000 to nodedmx.0.DMX020 these objects can be accessed by IOBroler or Node Red etc...
+
+The adapter is only supporting direct access to channels - no other features of class DMX-Animation of node-dmx are supported!
 
 ## Developer manual
 This section is intended for the developer. It can be deleted later.
