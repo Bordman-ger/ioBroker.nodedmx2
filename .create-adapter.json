@@ -3,7 +3,7 @@
 	"target": "directory",
 	"adapterName": "nodedmx2",
 	"title": "Nodedmx2",
-	"description": "Nodedmx",
+	"description": "Nodedmx2",
 	"expert": "no",
 	"features": [
 		"adapter"
@@ -25,9 +25,9 @@
 	"devServerPort": 8081,
 	"indentation": "Tab",
 	"quotes": "double",
-	"authorName": "Boardman-ger",
-	"authorGithub": "Boardman-ger",
-	"authorEmail": "boardman-ger@selzer-schoeneck.de",
+	"authorName": "Bordman-ger",
+	"authorGithub": "Bordman-ger",
+	"authorEmail": "bordman-ger@selzer-schoeneck.de",
 	"gitRemoteProtocol": "HTTPS",
 	"gitCommit": "no",
 	"defaultBranch": "main",
