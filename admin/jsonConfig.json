@@ -5,7 +5,7 @@
 		"device": {
 			"type": "text",
 			"label": "Device",
-			"newLine": true
+			"newLine": true	
 		},
 		"driver": {
 			"type": "text",
