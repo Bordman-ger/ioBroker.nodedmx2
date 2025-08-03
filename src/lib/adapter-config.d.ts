@@ -4,8 +4,10 @@
 declare global {
 	namespace ioBroker {
 		interface AdapterConfig {
-			option1: boolean;
-			option2: string;
+			// Define the shape of your options here (recommended)
+			device: string;
+			driver: string;
+			channels_used : number;
 		}
 	}
 }

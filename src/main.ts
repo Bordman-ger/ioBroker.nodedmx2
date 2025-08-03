@@ -11,7 +11,7 @@ import type {CurrentStateValue, StateChangeListener,  StateEventRegistration} fr
 
 // Load your modules here, e.g.:
 // import * as fs from "fs";
-
+/*
 // Augment the adapter.config object with the actual types
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
@@ -26,7 +26,7 @@ declare global {
 	}
 
 }
-
+*/
 class Nodedmx2 extends utils.Adapter {
 	private mydmx?: any;
 	private existingObjects: Record<string, ioBroker.Object> = {};
