@@ -5,8 +5,8 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
-//const DMX = require('dmx')
 import DMX from 'dmx';
+
 
 import type {CurrentStateValue, StateChangeListener,  StateEventRegistration} from "./lib/dmx.d.ts";
 

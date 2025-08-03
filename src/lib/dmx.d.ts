@@ -1,5 +1,5 @@
 //declare module "dmx";
-import DMX from 'dmx';
+
 
 export type FlatStateValue = string | number | boolean;
 export type StateValue = FlatStateValue | any[] | Record<string, any>;

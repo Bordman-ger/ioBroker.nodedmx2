@@ -22,6 +22,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var utils = __toESM(require("@iobroker/adapter-core"));
+var import_dmx = __toESM(require("dmx"));
 class Nodedmx2 extends utils.Adapter {
   mydmx;
   existingObjects = {};
@@ -47,7 +48,7 @@ class Nodedmx2 extends utils.Adapter {
   async onReady() {
     this.setState("info.connection", false, true);
     this.log.info(`Adapter state Ready`);
-    this.mydmx = new DMX();
+    this.mydmx = new import_dmx.default();
     this.mydmx.universe = this.mydmx.addUniverse("myusb", this.config.driver, this.config.device, "null");
     this.log.info(`Universe erzeugt`);
     this.mydmx.universe.updateAll(0);
